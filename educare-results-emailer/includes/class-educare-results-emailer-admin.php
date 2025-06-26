@@ -1,5 +1,10 @@
 <?php
 
+// If this file is called directly, abort.
+if (!defined('ABSPATH')) {
+    exit; // Exit if accessed directly
+}
+
 // WordPress includes PHPMailer automatically, no need to require it
 if (!class_exists('PHPMailer\PHPMailer\PHPMailer')) {
     require_once ABSPATH . WPINC . '/PHPMailer/PHPMailer.php';
@@ -995,11 +1000,15 @@ class Educare_Results_Emailer_Admin {
         $pdf_content = $this->generate_pdf_content($student, $subjects);
 
         // Generate PDF
-        $mpdf = new \Mpdf\Mpdf();
-        $mpdf->WriteHTML($pdf_content);
+        // Initialize dompdf for PDF generation (WordPress.org compliant)
+        // Generate PDF using dompdf (WordPress.org compliant)
+        $dompdf = new \Dompdf\Dompdf();
+        $dompdf->loadHtml($pdf_content);
+        $dompdf->setPaper('A4', 'portrait');
+        $dompdf->render();
         
         // Output PDF as base64
-        $pdf_base64 = base64_encode($mpdf->Output('', 'S'));
+        $pdf_base64 = base64_encode($dompdf->output());
         
         wp_send_json_success(array(
             'pdf' => $pdf_base64,
@@ -2016,7 +2025,7 @@ class Educare_Results_Emailer_Admin {
             
             error_log('PDF content generated successfully, length: ' . strlen($pdf_content));
             
-            // Try dompdf first (more reliable for HTML-to-PDF)
+            // Use dompdf for PDF generation (WordPress.org approved pending)
             error_log('Attempting PDF generation with dompdf...');
             $dompdf_result = $this->generate_pdf_with_dompdf($student, $pdf_content, $pdf_path);
             
@@ -2032,24 +2041,8 @@ class Educare_Results_Emailer_Admin {
             
             error_log('dompdf failed: ' . $dompdf_result['message']);
             
-            // Try mPDF as fallback
-            error_log('Attempting PDF generation with mPDF...');
-            $mpdf_result = $this->generate_pdf_with_mpdf($student, $pdf_content, $pdf_path);
-            
-            if ($mpdf_result['success']) {
-                error_log('mPDF PDF generation successful');
-                return array(
-                    'success' => true,
-                    'file_path' => $pdf_path,
-                    'filename' => $filename,
-                    'message' => $mpdf_result['message']
-                );
-            }
-            
-            error_log('mPDF failed: ' . $mpdf_result['message']);
-            
-            // Both PDF generators failed, use HTML fallback
-            error_log('Both PDF generators failed, using HTML fallback');
+            // dompdf failed, use HTML fallback
+            error_log('dompdf failed, using HTML fallback');
             return $this->generate_html_fallback($student, $pdf_path, $filename);
             
         } catch (Exception $e) {
@@ -4143,18 +4136,12 @@ class Educare_Results_Emailer_Admin {
                 error_log('Custom template PDF generation successful for student: ' . $student->Name);
                 return $pdf_result;
             } else {
-                error_log('Custom template dompdf failed, trying mPDF: ' . $pdf_result['message']);
+                error_log('Custom template dompdf failed: ' . $pdf_result['message']);
                 
-                // Fallback to mPDF
-                $mpdf_result = $this->generate_pdf_with_mpdf($student, $full_html, null);
-                if ($mpdf_result['success']) {
-                    error_log('Custom template mPDF fallback successful for student: ' . $student->Name);
-                    return $mpdf_result;
-                }
-                
+                // Return dompdf result only (mPDF removed for WordPress.org compliance)
                 return array(
                     'success' => false,
-                    'message' => 'Both dompdf and mPDF failed for custom template. dompdf: ' . $pdf_result['message'] . ', mPDF: ' . $mpdf_result['message']
+                    'message' => 'dompdf failed for custom template: ' . $pdf_result['message']
                 );
             }
             

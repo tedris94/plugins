@@ -1,5 +1,10 @@
 <?php
 
+// If this file is called directly, abort.
+if (!defined('ABSPATH')) {
+    exit; // Exit if accessed directly
+}
+
 class Educare_Results_Emailer {
     protected $loader;
     protected $plugin_name;
