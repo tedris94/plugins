@@ -1,0 +1,752 @@
+/** ============================================================
+	* Educare results style dev by FixBD
+	* URL: https://github.com/FixBD/Educare/blob/FixBD/assets/css/results.css
+	* @since v1.0.0
+	* @Version: v1.2.0
+	* @last-update v1.4.2
+	* License - GPL 2.0
+	# Unlimited modify allowed!!!
+	* modified by IDRIS BALA USMAN
+============================================================ **/
+
+@import url('modern-search-form.css');
+@import url('certificate.css');
+@import url('calendar.css');
+
+*,
+*::before,
+*::after {
+	box-sizing: inherit;
+	-webkit-font-smoothing: antialiased;
+	/* word-break: break-word; */
+	word-wrap: break-word;
+}
+
+body {
+	box-sizing: border-box;
+}
+
+/* Global style */
+.educare_results h1,
+.educare_results h2,
+.educare_results h3,
+.error_notice {
+	text-align: center;
+}
+.educare_results input,
+.educare_results select,
+.educare_results input[type="number"] {
+	background-color: rgba(255, 255, 255, 0.5);
+	width: 100%;
+	min-width: 100%;
+	margin: 6px 0px;
+	padding: 10px;
+	border: 1px solid rgba(0,0,0,0);
+	border-radius: 5px;
+	box-sizing: border-box;
+}
+.educare_results input[type="number"] {
+	margin: 6px 0 12px;
+}
+.educare_results .select {
+	display: flex;
+  gap: 16px;
+  align-items: center;
+  flex-flow: wrap;
+}
+.educare_results .select * {
+  flex: 2 100px;
+}
+.educare_results .select p  {
+	margin: 8px 0;
+}
+
+.educare_results button {
+  /* color: rgba(255, 255, 255, 0.8);
+  background-color: #11b570;
+  text-align: center;
+  padding: 16px 20px;
+  font-weight: 700;
+  border: none;
+  border-radius: 4px; */
+	margin: 18px auto;
+  -webkit-transition: all .2s ease-in-out;
+  -moz-transition: all .2s ease-in-out;
+  -ms-transition: all .2s ease-in-out;
+  -o-transition: all .2s ease-in-out;
+  transition: all .2s ease-in-out;
+}
+.educare_results button:hover {
+	-webkit-box-shadow: 3px 3px 12px 4px rgba(0,0,0,.3), inset 0 0 0 transparent;
+  box-shadow: 3px 3px 12px 3px rgba(0,0,0,.3), inset 0 0 0 transparent;
+}
+
+/* Results Passed or failed Style */
+.educare_results .failed,
+.educare_results .success {
+	background: none;
+	padding: 0px;
+}
+.educare_results .failed,
+.error_notice b {
+	background: none;
+	color: red;
+}
+
+
+.educare_results .success {
+	color: green;
+}
+/* Results not found */
+.educare_results .error,
+.notice-error {
+	color: rgba(255, 0, 0, 1.0);
+	margin: 4%;
+}
+
+/* Results body & search forms Style */
+.educare_results .results_form,
+.educare_results .result_body {
+	padding: 3% 4%;
+	margin: 0 auto;
+	font-size: 10px;
+	max-width: 1280px;
+	border-radius: 12px;
+}
+
+.educare_results .results_form {
+	background: #ABCEFD !important;
+	max-width: 580px;
+	box-shadow: 0px 5px 30px rgba(0, 0, 0, 0.200);
+}
+.results_form.error_notice,
+.notice-error {
+	background: #ff000010;
+	margin: 18px auto;
+	box-shadow: none;
+}
+.results_form.error_notice.success {
+	background: #15ff0010;
+}
+.educare_results .table_body {
+	overflow-x: auto;
+}
+.result_body h2 {
+	padding: 22px;
+	margin: 0px !important;
+	color: #202020cc;
+}
+.result_body h2.head {
+	color: white;
+	background:#4362A0 !important;
+}
+.default-template h2.details {
+	color: #333;
+	background:#ABCEFD !important;
+}
+
+
+.result_body h2.head small {
+	font-size: 30%;
+}
+.result_body h2.students_name {
+	color: inherit;
+	background: none;
+}
+.result_body .student_photos {
+	text-align: center;
+}
+.result_body .student_photos img {
+	width: 40%;
+	height: 40%;
+	max-width: 200px;
+	max-height: 200px;
+	padding: 8px;
+	margin: auto;
+	border-radius: 100%;
+}
+.result_body table {
+	/* background: #eee; */
+	width: 100%;
+	table-layout: unset !important;
+	text-align: left;
+	border-collapse: collapse;
+	margin: 0 auto;
+}
+.results-content table tr:nth-child(even) {
+	background-color: red;
+}
+.result_body .result_details td,
+.result_body .grade_sheet td,
+.result_body .grade_sheet th {
+	text-align: center;
+	padding: 8px;
+	border: 1px solid black;
+	white-space: nowrap;
+}
+
+
+.result_body .result_details td {
+	text-align: left;
+}
+.result_body .grade_sheet.list td:nth-child(2),
+.result_body .grade_sheet.list th:nth-child(2) {
+	text-align: left;
+}
+.result_body .grade_sheet.rattings td,
+.result_body .grade_sheet.rattings th {
+	text-align: left;
+}
+
+.result_body .grade_sheet.list th:first-child,
+.rattings-status {
+	width: 42px;
+	text-align: center !important;
+}
+
+.result_body .grade_sheet th {
+	background: #ABCEFD !important;
+}
+
+.result_body .remarks_head {
+	background: #ABCEFD !important;
+}
+
+
+#educare-loading {
+	display: none;
+}
+.educare-spinner {
+	position: fixed;
+	height: 70px;
+	width: 70px;
+	top: 50%;
+	left: 50%;
+	margin-left: -50px;
+	margin-top: -50px;
+	background-image: url(../img/loader.svg);
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: 100%;
+	background-color: #11b571b6;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: 8px;
+}
+
+html:dir(rtl) #educareResults,
+html:dir(rtl) #educareResults * {
+  direction: rtl;
+	text-align: right;
+}
+
+
+
+/* Print Style */
+@media print {
+	/* for clean others style */
+	*:not(#educareResults, .result_body, .results-container *) {
+    padding: 0 !important;
+    margin: 0 !important;
+		/* all: unset !important; */
+		margin: unset;
+		padding: unset;
+		visibility: hidden !important;
+  }
+	* {
+    visibility: hidden;
+		/* padding: 0px !important;
+		margin: 0px !important; */
+  }
+  body * {
+    visibility: hidden;
+  }
+	.no_print {
+	  display: none;
+	}
+	.print:last-child{
+		page-break-after: auto;
+	}
+	body,
+	html {
+		font-size: 11px !important;
+		width: 90%;
+		min-width: 100%;
+		padding: 0px !important;
+		margin: 0px !important;
+		top: 0%;
+		
+	}
+
+	.result_body * {
+    visibility: visible !important;
+  }
+	.results-container, .result_body {
+		margin: 0;
+		width: 100%;
+		min-width: 100%;
+		position: absolute;
+    	top: 0;
+		left: 0;
+	}
+	.results-container {
+		border: none !important;
+		/*padding: 4% !important;*/
+	}
+	table {
+    border-collapse: collapse;
+  }
+	table, th, td {
+		border: 1px solid black;
+		white-space: nowrap;
+	}
+	.result_body th {
+		background-color: rgba(13,83,86,0.2) !important;
+		-webkit-print-color-adjust: exact; 
+		print-color-adjust: exact;
+	}
+	h2.Name,
+	h2.details {
+		color: black !important;
+		font-size: 20px !important;
+		text-align: center;
+	}
+	h2.details {
+		padding: 4px;
+	}
+	.head {
+		color: white !important;
+		background-color:rgb(3,62,68) !important;
+		-webkit-print-color-adjust: exact;
+		print-color-adjust: exact;
+		padding: 2px !important;
+	}
+
+
+	.result_body h2.head small {
+		font-size: 20%;
+		padding: 2px !important;
+	}
+
+	.educare_remarks {
+		display: block !important;
+	}
+
+	.banner .title h1  {
+		color: #303030;
+		font-weight: 400;
+		font-size: 10px !important;	
+	}
+
+	.title h1 input {
+		font-size: 8px;
+	}
+	
+	.banner .title p  {
+		color: #0A1D2B;
+		font-size: 6px;
+		margin:0;
+		padding: 0;
+	}
+
+
+
+
+
+
+
+	/* Extra */
+  .result_body,
+  .results-container,
+  body,
+	html {
+    width: 100% !important;
+    min-width: 100% !important;
+    max-width: 100% !important;
+  }
+
+
+
+	/* A4 size */
+	@page {
+    size: 210mm 297mm;
+  }
+
+	/* @page {
+    size: A3 landscape;
+  } */
+
+  /* Remarks */
+.educare_remarks {
+	margin: 1rem 0px;
+}
+.educare_remarks.print_only_remarks {
+	display: none;
+}
+
+.educare_remarks table,
+.educare_remarks table th,
+.educare_remarks table td,
+.educare_remarks table td:first-child {
+	text-align: left;
+	border: none;
+}
+
+.educare_remarks table td:first-child {
+	width: 180px;
+}
+.educare_remarks table td:nth-child(even) {
+	border-bottom: 1px solid black !important;
+}
+.remarks-sign {
+	width: 90px;
+	vertical-align: middle;
+}
+.remarks-date {
+	width: 70px;
+	vertical-align: middle;
+}
+
+.remarks-sign-field,
+.remarks-date-field {
+	width: 5%;
+	vertical-align: middle;
+}
+th.remarks_head {
+	padding: 8px;
+	text-align: left;
+}
+
+.text-center {
+	text-align: center;
+}
+
+}
+
+
+
+
+/* Remarks */
+.educare_remarks {
+	margin: 1rem 0px;
+}
+.educare_remarks.print_only_remarks {
+	display: none;
+}
+
+.educare_remarks table,
+.educare_remarks table th,
+.educare_remarks table td,
+.educare_remarks table td:first-child {
+	text-align: left;
+	border: none;
+}
+
+.educare_remarks table td:first-child {
+	width: 180px;
+}
+.educare_remarks table td:nth-child(even) {
+	border-bottom: 1px solid black !important;
+}
+.remarks-sign {
+	width: 90px;
+	vertical-align: middle;
+}
+.remarks-date {
+	width: 70px;
+	vertical-align: middle;
+}
+
+.remarks-sign-field,
+.remarks-date-field {
+	width: 5%;
+	vertical-align: middle;
+}
+th.remarks_head {
+	padding: 8px;
+	text-align: left;
+}
+
+.text-center {
+	text-align: center;
+}
+
+.fixbd-flex {
+	display: flex;
+	align-items: center;
+}
+.default-template .fixbd-flex.student-photos {
+	justify-content: space-around;
+}
+
+.fixbd-flex > * {
+	display: flex;
+	flex: 2;
+	align-items: center;
+	justify-content: center;
+}
+.student-details table {
+	display: block;
+}
+
+.banner {
+	background-color: #f1f1f1;
+	color: #202020cc;
+	text-align: center !important;
+	transition: 0.3s;
+	padding: 4px;
+	overflow-x: auto;
+}
+/* .banner:hover {
+	background-color: #0b7bcd;
+} */
+/* .banner:hover .title p {
+	color: white;
+	text-shadow: 2px 2px 8px rgba(0,0,0,0.2);
+} */
+.banner .title {
+	flex: 6;
+	display: block;
+}
+
+.banner .title h1  {
+	color: #303030;
+	font-weight: 600;
+	font-size: 20px !important;
+	padding: 0;
+	margin: 2px;
+	font-weight: normal;
+	text-shadow: 2px 2px 8px rgba(0,0,0,0.2);
+}
+.title h1 input {
+	font-size: 22px;
+}
+
+.banner .title p  {
+	color: #0A1D2B;
+	font-size: 14px;
+	margin:0;
+	padding: 0;
+}
+
+.banner img  {
+	width: 9vw;
+	/* max-width: 110px; */
+}
+
+table td {
+	padding: 8px 12px;
+}
+
+table td input {
+	display: inline;
+}
+
+.fixbd-flex .img {
+	max-width: 120px;
+	background: white;
+	padding: 0;
+	margin: 8px;
+	border: 1px solid rgb(255, 255, 255);
+	border-radius: 8px;
+	overflow: hidden;
+}
+.default-template .fixbd-flex.student-photos .s-photos {
+	justify-content: end;
+}
+
+.student-details {
+	display: inline-block;
+}
+/* .student-photos {
+	background: rgb(13,83,86);
+} */
+.student-photos table {
+	background: none;
+	border: none;
+}
+.student-photos table td {
+	padding: 2px 12px;
+	/* color: white; */
+	font-size: small;
+	border: none;
+}
+
+.results-container {
+	border: 1px solid rgba(3,62,68,0.2);
+	border-radius: 12px;
+	overflow: hidden;
+	margin-bottom: 2rem;
+}
+
+
+
+
+/* New Version */
+#educareResults {
+	font-size: 1rem;
+}
+
+#educareResults * {
+  box-sizing: border-box;
+}
+
+#educareResults input, select, textarea {
+  display: block;
+	font-size: 16px !important;
+	font-weight: 400;
+  width: 100%;
+  padding: 12px;
+  line-height: 1.5;
+  background-color: rgba(255, 255, 255, 0.5) !important;
+  background-clip: padding-box;
+  border: 1px solid rgba(0,0,0,.18) !important;;
+  border-radius: 0.25rem;
+  transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+}
+
+#educareResults .container {
+  margin: 40px;
+}
+#educareResults .content {
+  padding: 40px;
+}
+
+#educareResults .box {
+  background: rgba(255, 255, 255, 0.5);
+}
+
+
+
+#educareResults label {
+  padding: 12px 12px 12px 0;
+  display: inline-block;
+}
+
+#educareResults button,
+#educareResults input[type=submit] {
+	margin: 6px 6px 0px 0px;
+}
+
+#educareResults input[type=submit]:hover {
+  background-color: #45a049;
+}
+
+#educareResults .col-25 {
+  float: left;
+  width: 20%;
+  margin-top: 6px;
+}
+
+#educareResults .col-75 {
+  float: left;
+  width: 80%;
+  margin-top: 6px;
+}
+
+/* Clear floats after the columns */
+#educareResults .row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* Responsive layout - when the screen is less than 600px wide, make the two columns stack on top of each other instead of next to each other */
+@media screen and (max-width: 600px) {
+  #educareResults .col-25, #educareResults .col-75, input[type=submit] {
+    width: 100%;
+    margin-top: 0;
+  }
+}
+
+
+/* Msgs */
+#educareResults .notice {
+	padding: initial;
+	text-align: center;
+	margin: 20px;
+	border-radius: 1rem;
+}
+#educareResults .notice p {
+	padding: 20px 40px;
+}
+#educareResults .notice-error {
+	background: #ff000010;
+}
+#educareResults .notice-error {
+	background: #15ff0010;
+}
+
+#educareResults .notice-success,
+#educareResults .success {
+	color: green;
+	background: #15ff0010;
+}
+#educareResults .notice-error,
+#educareResults .failed {
+	color: red;
+}
+
+
+/* Table tag */
+th small,
+h2 small {
+  display: block;
+  font-weight: normal;
+}
+
+#educareResults h2 {
+	text-align: center;
+}
+
+#educareResults thead {
+	vertical-align: middle;
+}
+
+
+/* Profile page */
+.profiles-cover {
+  border-bottom: 0px !important;
+  padding: 0px !important;
+  height: auto !important;
+  max-height: auto !important;
+}
+
+.profiles-cover .transbox {
+  padding: 4% !important;
+  background-color: #000000;
+  opacity: 0.6;
+}
+
+.profiles-page section {
+  padding: 0px;
+  margin: 18px auto 0;
+}
+
+.analytics-bg {
+  background-image: url('img/sun-tornado.svg');
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.scrollable-row {
+  overflow-x: auto;
+  display: flex;
+}
+
+.scrollable-col {
+  flex: 1 0 300px; /* Set your desired minimum width for each column */
+  margin-right: 10px; /* Add some spacing between columns if needed */
+  white-space: nowrap;
+}
+
+.exam-overview .scrollable-col:nth-of-type(odd) {
+  background-color: rgba(153, 205, 50, 0.2);
+}
+.exam-overview .scrollable-col:nth-of-type(even) {
+  background: rgba(255, 255, 0, 0.2);
+}
+
+
+

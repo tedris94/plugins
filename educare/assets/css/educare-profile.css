@@ -1,0 +1,324 @@
+/* Color */
+:root {
+  --educare-color: rgb(3,62,68);
+  --educare-bg: #2cc185;
+  --praimary-bg: #00102e;
+  --praimary-color: white;
+  --active: #00ac4e;
+}
+
+@import url("profiles.css");
+
+body, button, input, select, textarea {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  font-size: 1rem;
+}
+
+a:hover {
+  color: var(--educare-bg) !important;
+}
+
+button:hover,
+a.active button {
+  color: white;
+  background-color: var(--active) !important;
+}
+
+.active {
+  color: #00ac4e !important;
+}
+
+.rounded {
+  overflow: hidden !important;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Amaranth", Sans-serif;
+}
+
+h4 {
+  font-size: 32px;
+  font-family: Georgia,Times,serif;
+}
+
+.fs-1 {
+  font-size: 56px !important;
+}
+
+.educare-color {
+  color: var(--educare-color);
+}
+.educare-bg {
+  background-color: var(--educare-color);
+}
+
+.navbar-nav {
+  align-items: center;
+}
+.educare-navbar {
+  max-width: 1440px !important; /* Adjust the value as per your requirement */
+  margin-left: auto;
+  margin-right: auto;
+}
+
+
+.bg-dark {
+  background-color: #00102e !important;
+}
+
+.container-fluid {
+  padding: 0px 40px;
+}
+
+section {
+  margin: 10% 0;
+}
+
+button,
+.button,
+.action-button {
+  font-family: "Amaranth", Sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  fill: #FFFFFF;
+  color: #FFFFFF;
+  background-color: var(--educare-color);
+  border-radius: 4px;
+  border: none;
+  padding: 8px 1.5rem;
+}
+
+.download-button {
+  background-color: #f80000;
+}
+
+.action-button {
+  margin-left: 1.5rem;
+}
+
+.button {
+  margin: 0;
+}
+
+.apply-now {
+  fill: #020202;
+  color: #020202;
+  background-color: #DBDAD8;
+}
+
+.cover-section {
+  position: relative;
+  background-image: url('../img/cover.png');
+  background-size: cover;
+  background-position: center;
+  height: 100vh; /* Set the section height to full viewport height */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-top: 12%; /* Adjust the padding to match the height of your fixed top navigation menu */
+  /* z-index: 1; */
+}
+
+@media (max-width: 720px) {
+  .cover-section {
+    padding-top: 18%; /* Adjust the padding to match the height of your fixed top navigation menu */
+  }
+}
+
+.cover-section::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(12, 34, 16, 0.6);
+  z-index: -1;
+}
+
+
+.cover-section h1 {
+  font-size: 60px;
+}
+
+.cover-section h1, .cover-section p {
+  color: #FFFFFF;
+  text-align: left; /* Align the text to the left side */
+}
+
+.border-bottom {
+  border-bottom: 4px solid #000 !important;
+  padding-bottom: 5px; /* Adjust the padding as needed */
+}
+
+.bottom-border {
+  font-size: 32px;
+  font-weight: 600;
+  position: relative;
+  padding-bottom: 20px;
+  margin-top: 70px;
+  text-transform: capitalize;
+}
+
+.bottom-border:after {
+  content: "";
+  width: 150px;
+  height: 4px;
+  background-image: linear-gradient(to right, rgba(69,203,149,0.1), var(--educare-bg), rgba(69,203,149,0.1));
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: 0 auto;
+  border-radius: 6px;
+}
+
+.margin  {
+  margin: 10% 0 !important;
+}
+
+.image-container {
+  padding: 5% 0;
+  background-color: var(--praimary-bg);
+  color: var(--praimary-color);
+}
+
+.educare-box {
+  padding: 28px;
+  max-width: 840px;
+}
+
+.top-title {
+  font-size: 28px;
+}
+
+.bottom-title {
+  font-size: 42px;
+}
+
+.separator {
+  margin: 0 5px; /* Adjust spacing as needed */
+  color: #999; /* Adjust color as needed */
+}
+
+
+/* IMG Gallery */
+.gallery-item {
+  position: relative;
+  margin-bottom: 20px;
+  overflow: hidden;
+}
+
+.gallery-item img {
+  width: 100%;
+  height: auto;
+}
+
+.gallery-item figcaption {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 10px;
+  background-color: rgba(0, 0, 0, 0.7);
+  color: #fff;
+  text-align: center;
+  font-size: 14px;
+}
+
+@media (max-width: 767px) {
+  .gallery-item {
+    margin-bottom: 10px;
+  }
+  
+  .gallery-item figcaption {
+    font-size: 12px;
+  }
+}
+
+/* Slider */
+.carousel-control-prev-icon {
+  background-image: url("img/prev.svg");
+  width: 48px;
+  height: 48px;
+}
+.carousel-control-next-icon {
+  background-image: url("img/next.svg");
+  width: 48px;
+  height: 48px;
+}
+
+
+.carousel-control-next:hover {
+	background: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.8));
+	background-color: transparent !important;
+}
+.carousel-control-prev:hover {
+	background: linear-gradient(to left, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.8));
+	background-color: transparent !important;
+}
+
+.carousel-indicators li {
+  border: 1px solid #000;
+  background-color: transparent;
+  width: 12px;
+  height: 12px;
+  margin: 0 4px;
+  cursor: pointer;
+  list-style: none; /* Remove default numbering */
+}
+
+.carousel-indicators .active {
+  background-color: var(--active);
+}
+
+.carousel-inner {
+  position: relative;
+}
+
+.carousel-inner::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 40%;
+  background-image: linear-gradient(to top, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0));
+}
+
+
+.carousel-caption {
+  position: absolute;
+  bottom: 15px;
+  left: 15px;
+  right: 15px;
+  z-index: 10;
+  color: #fff;
+}
+
+.carousel-indicators {
+	z-index: 12 !important;
+}
+
+@media (max-width: 576px) {
+  .carousel-caption > p {
+    display: none !important;
+  }
+}
+
+.notice-dismiss {
+  display: none !important;
+}
+
+[name=loginform] label,
+#updateUser label {
+  display: block;
+}

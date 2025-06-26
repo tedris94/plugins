@@ -1,0 +1,377 @@
+/* Print styles that match screen display exactly */
+
+@media print {
+    @page {
+        size: A4;
+        margin: 0;
+    }
+    
+    @page bos-report-card {
+        size: A4;
+        padding: 5mm;
+        margin: 20px auto;
+    }
+    
+    body {
+        page: bos-report-card;
+        margin: 0;
+        padding: 0;
+        background: white;
+        font-family: Arial, sans-serif;
+        height: 100% !important;
+        max-height: 100% !important;
+        overflow: hidden !important;
+    }
+    
+    html {
+        height: 100% !important;
+        max-height: 100% !important;
+        overflow: hidden !important;
+    }
+    
+    /* Force background colors to print */
+    * {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+        color-adjust: exact !important;
+    }
+    
+    /* Main container - optimized for single page */
+    .result_body {
+        width: 210mm;
+        max-height: 297mm;
+        padding: 0;
+        margin:0;
+        background: white;
+        box-sizing: border-box;
+        box-shadow: none;
+        overflow: hidden;
+        transform-origin: top center;
+    }
+
+    .results-container {
+        width: 100%;
+    }
+
+    /* Banner and Header Styling - same as screen */
+    .bos-banner img {
+        width: 100%;
+        height: auto;
+    }
+
+    .school-address {
+        font-size: 9pt;
+        margin: 3mm 0;
+        margin-top: 2px;
+        margin-bottom: 30px;
+        text-align: center;
+    }
+
+    hr {
+        margin-top: -30px !important;
+       
+    }
+
+    /* Table Styling - optimized for single page */
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 1.5mm;
+    }
+
+    td {
+        border: 1px solid #000;
+        padding: 1px 2px;
+        font-size: 8.5pt !important;
+        line-height: 1.2;
+    }
+
+    /* Header Cells - optimized for single page */
+    td[style*="background-color"] {
+        background-color: #573b8a !important;
+        color: #fff !important;
+        font-size: 10pt;
+        padding: 2px;
+    }
+
+    /* Student Details Table - optimized for single page */
+    .student-details-table {
+        margin-bottom: 3mm;
+        border-collapse: collapse;
+        max-width: 100%;
+        margin-top: -10px !important;
+    }
+
+    .student-details-table td {
+        padding: 1px 3px;
+        height: auto;
+        white-space: nowrap;
+        max-width: 200px;
+        font-size: 9pt;
+    }
+
+    /* Reduce width of column 1 */
+    .student-details-table td:nth-child(1) {
+        max-width: 1%;
+        width: 1%;
+        break-word: break-all;
+    }
+
+    /* Reduce width of column 5 */
+    .student-details-table td:nth-child(5) {
+        max-width: 1%;
+        width: 1%;
+        break-word: break-all;
+    }
+
+    /* Allow word wrapping for the last row */
+    .student-details-table tr:last-child td {
+        white-space: normal;
+        word-wrap: break-word;
+        word-break: break-word;
+    }
+
+    /* Expand photo cell to make it more visible */
+    .student-details-table td[colspan="2"] {
+        width: fit-content;
+        min-width: fit-content;
+        max-width: fit-content;
+    }
+
+    .student-details-table img {
+        width: 100px;
+        height: 120px;
+        object-fit: contain;
+    }
+
+    /* Grade Sheet - optimized for single page */
+    .grade-sheet {
+        margin-bottom: 3mm;
+    }
+    
+    .grade-sheet table {
+        margin-top: -8px;
+        font-size: 9pt;
+        margin-bottom: 1mm;
+    }
+
+    .grade-sheet td {
+        padding: 2px 3px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        line-height: 1;
+        font-size: 8pt;
+    }
+
+    .grade-sheet table tr:nth-child(2) td {
+        font-size: 8pt;
+        padding: 2px;
+        text-align: center;
+        vertical-align: top;
+    }
+
+    .grade-sheet table td:nth-child(2) {
+        min-width: 60px;
+        white-space: normal;
+    }
+
+    .grade-sheet table td:nth-child(n+3) {
+        min-width: 35px;
+        text-align: center;
+    }
+
+    /* Skills Section - optimized for single page */
+    .skills {
+        margin-top: 5px;
+        display: flex;
+        flex-direction: row;
+        justify-content: left;
+        gap: 15px;
+        margin-bottom: 3mm;
+    }
+
+    .skills table {
+        width: 40%;
+        font-size: 8.5pt;
+        margin-bottom: 1mm;
+        margin-left: 5px;
+        margin-right: auto;
+    }
+
+    .skills tr td {
+        font-size: 8pt;
+        text-align: left;
+        padding: 1px 3px;
+    }
+
+    /* Overview Section - optimized for single page */
+    .overview {
+        margin-bottom: 3mm;
+    }
+
+    .overview table {
+        width: 100%;
+        margin-bottom: 1.5mm;
+    }
+
+    .overview td {
+        padding: 1px 3px;
+        font-size: 8.5pt;
+        font-weight: normal;
+    }
+
+    .overview td[colspan="6"] {
+        font-size: 10pt;
+        padding: 2px;
+        background-color: #573b8a !important;
+        color: #fff !important;
+    }
+
+    /* Ensure QUICK OVERVIEW header has proper styling */
+    .overview td[style*="background-color: #573b8a"] {
+        background-color: #573b8a !important;
+        color: #fff !important;
+        font-weight: bold !important;
+        text-align: center !important;
+    }
+
+    /* Grading Key Section - optimized for single page */
+    .grading-key {
+        margin-bottom: 3mm;
+    }
+
+    .grading-key table {
+        width: 100%;
+        margin-bottom: 1.5mm;
+        font-size: 8.5pt;
+    }
+
+    .grading-key td {
+        padding: 1px 3px;
+        font-size: 8pt;
+        text-align: left;
+        border: 1px solid #000;
+    }
+
+    .grading-key td[style*="background-color: #573b8a"] {
+        background-color: #573b8a !important;
+        color: #fff !important;
+        font-weight: bold !important;
+        text-align: center !important;
+        font-size: 10pt;
+        padding: 2px;
+    }
+
+    .grading-key td[style*="background-color: #f0f0f0"] {
+        background-color: #f0f0f0 !important;
+        color: black !important;
+        font-weight: bold !important;
+        text-align: center !important;
+    }
+
+    /* Remarks Section - optimized for single page */
+    .remarks {
+        margin-bottom: 3mm;
+    }
+
+    .remarks table {
+        width: 100%;
+        font-size: 8.5pt;
+    }
+
+    .remarks td {
+        padding: 3px 4px;
+        font-size: 9pt;
+    }
+
+    .remarks td:first-child {
+        font-weight: bold;
+    }
+
+    /* Image Styling - same as screen */
+    img {
+        max-width: 100%;
+        height: auto;
+    }
+
+    img[alt="Signature"] {
+        width: 40px;
+        height: auto;
+    }
+
+    img[alt="Student Image"] {
+        width: 120px;
+        height: 150px;
+        object-fit: contain;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+
+    /* Status indicators */
+    .passed {
+        color: #28a745;
+        font-weight: bold;
+    }
+
+    .failed {
+        color: #dc3545;
+        font-weight: bold;
+    }
+
+    /* Hide print buttons and scroll indicators */
+    .no_print {
+        display: none !important;
+    }
+    
+    .grade-sheet::before {
+        display: none !important;
+    }
+
+    /* Ensure proper page breaks */
+    .result_body {
+        page-break-after: avoid !important;
+        page-break-inside: avoid !important;
+    }
+
+    /* Prevent orphaned content */
+    * {
+        page-break-after: avoid !important;
+        page-break-before: avoid !important;
+    }
+
+    /* Force single page */
+    body {
+        page-break-after: avoid !important;
+    }
+    
+    /* Aggressive single page enforcement */
+    .result_body {
+        height: 277mm !important; /* A4 height minus margins */
+        max-height: 277mm !important;
+        overflow: hidden !important;
+        transform: scale(0.95) !important;
+        transform-origin: top center !important;
+    }
+    
+    /* Remove any trailing content that could cause page breaks */
+    .result_body::after {
+        content: "" !important;
+        display: block !important;
+        clear: both !important;
+        height: 0 !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        page-break-after: avoid !important;
+    }
+    
+    /* Ensure no elements can create page breaks */
+    .result_body * {
+        page-break-after: avoid !important;
+        page-break-before: avoid !important;
+        page-break-inside: avoid !important;
+        break-after: avoid !important;
+        break-before: avoid !important;
+        break-inside: avoid !important;
+    }
+}

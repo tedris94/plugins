@@ -1,0 +1,842 @@
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Educare\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-09-02 18:37+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: \n"
+"Language: \n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Loco https://localise.biz/\n"
+"X-Loco-Version: 2.6.6; wp-6.3.1\n"
+"X-Domain: educare"
+
+#. Name of the plugin
+msgid "Educare"
+msgstr ""
+
+#. Description of the plugin
+msgid "Educare is a powerful online School/College students & results management system dev by FixBD. This plugin allows you to manage and publish students results. You can easily Add/Edit/Delete Students, Results, Class, Exam, Year Custom field and much more... Also you can import & export unlimited students and results just a click!"
+msgstr ""
+
+#. Author of the plugin
+msgid "FixBD"
+msgstr ""
+
+#. Author URI of the plugin
+msgid "http://fixbd.net"
+msgstr ""
+
+#. URI of the plugin
+msgid "http://wordpress.org/plugins/educare/"
+msgstr ""
+
+#. Educare menu
+msgid "All Students"
+
+msgid "All Teachers"
+
+msgid "All Results"
+
+msgid "All %s"
+
+msgid "Attendance"
+
+msgid "Mark Sheet"
+
+msgid "Performance"
+
+msgid "Management"
+
+msgid "Settings"
+
+msgid "About Us"
+
+msgid "Students"
+
+msgid "students"
+
+msgid "Teachers"
+
+msgid "teachers"
+
+msgid "Results"
+
+msgid "results"
+
+msgid "Result"
+
+msgid "Marks"
+
+msgid "marks"
+
+msgid "Remarks"
+
+msgid "Details"
+
+msgid "Master/Mistress Remarks"
+
+msgid "Master/Mistress Name"
+
+msgid "Text"
+
+msgid "Date"
+
+msgid "Signature"
+
+msgid "Select Signature"
+
+msgid "Remove"
+
+msgid "Comments"
+
+msgid "Principal's Remarks"
+
+msgid "Name of Principal"
+
+msgid "Subject List"
+
+msgid "Select Subject"
+
+msgid "%s Details"
+
+msgid "Add New"
+
+msgid "View"
+
+msgid "Select Group"
+
+msgid "Visibility Status"
+
+msgid "None (Default)"
+
+msgid "None"
+
+msgid "No."
+
+msgid "Photos"
+
+msgid "Action"
+
+msgid "Page No"
+
+msgid "Per Page"
+
+msgid "Go"
+
+msgid "Page"
+
+msgid "Of"
+
+msgid "All"
+
+msgid "Add"
+
+msgid "Edit"
+
+msgid "Delete"
+
+msgid "Add %s"
+
+msgid "Edit %s"
+
+msgid "Update %s"
+
+msgid "Delete %s"
+
+msgid "Import %s"
+
+msgid "View %s"
+
+msgid "%s not found"
+
+msgid "Page %d Of %d"
+
+msgid "Page No"
+
+msgid "Per Page"
+
+msgid "Go"
+
+msgid "All Data"
+
+msgid "Add Data"
+
+msgid "Update Data"
+
+msgid "Add Attendance"
+
+msgid "Update Attendance"
+
+msgid "View Attendance"
+
+msgid "Please click <a href='%s'>Add</a> (plus icon) or the menu below and select the specific class, subject, and date to edit, delete, print, or view previously saved attendance."
+
+msgid "Here you can change multiple students class, year, group just one click! Most usefull when you need to promote students (one class to onother) or need to update mulltiple studens"
+
+msgid "Successfully update default students photos"
+
+msgid "Grading System"
+
+msgid "If you need to change default grading value, simply click edit button and enter your custom (Country) starndard rules. Allso, you can add your custom rules using code. For this please visit Educare support forum or carfully read plugin readme files"
+
+msgid "Default"
+
+msgid "Custom"
+
+msgid "How does it work? Click to view"
+
+msgid "How it's work?"
+
+msgid "We are mentioning the process how to calculate CGPA (GPA) from Marks in HSC. To do this, add up the grade points for the six major subjects and divide with 6 (total subject). For example, your grade points for <b>six</b> main subjects are listed below:"
+
+msgid "Mark"
+
+msgid "Grade"
+
+msgid "GPA"
+
+msgid "Grade Points"
+
+msgid "Letter grade"
+
+msgid "Class interval"
+
+msgid "Default Rules"
+
+msgid "Sorry your requested data is missing!"
+
+msgid "Using this features teacher can add subject wise multiple students results at a same time. So, it's most usefull for (single) teacher. There are different teachers for each subject. Teachers can add marks for their specific subject using this feature. And can print all student marks as a marksheet. After, the mark addition is done for all the subjects, students can view and print their results when admin publish it as results. Also, teacher can publish single subject results. (We call it - <b>THE GOLDEN FEATURES FOR TEACHER!</b>)"
+
+msgid "Please select add (plus icon) button or click here and choice your class, subject and date for update attendance"
+
+msgid "You can control the data through these options. Change the options as per your requirement and submit to view the results."
+
+msgid "This %s is not visible for users. Because, some required field are empty. Fill all the required field carefully. Otherwise, users getting arror notice when someone find this %s. Click pen (Edit) button for fix this issue."
+
+msgid "Import"
+
+msgid "Auto Fill"
+
+msgid "Login Details"
+
+msgid "Username"
+
+msgid "Email"
+
+msgid "Password"
+
+msgid "Show"
+
+msgid "Update"
+
+msgid "Cancel"
+
+msgid "Protected Results"
+
+msgid "Secure results with password or pin code"
+
+msgid "Enter Password"
+
+msgid "Others Info"
+
+msgid "Rattings"
+
+msgid "Time"
+
+msgid "Asc"
+
+msgid "Desc"
+
+msgid "Valid"
+
+msgid "Expire"
+
+msgid "No Change"
+
+msgid "Publish"
+
+msgid "Scheduled"
+
+msgid "Optional Subject"
+
+msgid "All Students"
+
+msgid "All"
+
+msgid "Select %s"
+
+msgid "Class"
+
+msgid "Subject"
+
+msgid "Exam"
+
+msgid "Group"
+
+msgid "Year"
+
+msgid "Order By"
+
+msgid "Name"
+
+msgid "Roll No"
+
+msgid "Regi No"
+
+msgid "Asc"
+
+msgid "Desc"
+
+msgid "User Pin"
+
+msgid "Valid"
+
+msgid "Expire"
+
+msgid "Visibility"
+
+msgid "Change Visibility"
+
+msgid "No Change"
+
+msgid "User Pin"
+
+msgid "Change User Pin"
+
+msgid "Search"
+
+msgid "Type here for search"
+
+msgid "Filter"
+
+msgid "Update Status"
+
+msgid "Total"
+
+msgid "Search results for"
+
+msgid "Total %s data found"
+
+msgid "students found"
+
+msgid "students not found"
+
+msgid "Enter %s"
+
+msgid "You can not use this feature. Because, currently you have not installed Educare Import and Export add-ons. Please, contact your developers to install or enable this features."
+
+msgid "Here you can add, edit, update data and students details. For this you have to select the options that you see here."
+
+msgid "You can not use this feature. Because, currently you have not installed <b>Educare Import and Export</b> add-ons. Please, contact your developers to install or enable this features."
+
+msgid "Search %s by roll, reg no, class and year for update or remove specific data (All fields are requred)."
+
+msgid "If you have already added students, then you don't need to fill in student details again while adding or publishing any result. You just need to click on Auto Fill button. If you miss something or need to update, you can do this from <a href='admin.php?page=educare-all-%s&update-data'>Update Menu</a>. Also, you can import unlimited %s from <a href='admin.php?page=educare-all-%s&import-data'>Import</a> tab."
+
+msgid "Once, if you add and fill student details then you don't need to fill student details again while adding or publishing any results. If you miss something or need to update, you can do this from <a href='admin.php?page=educare-all-%s&update-data'>Update Menu</a>. Also, you can import unlimited %s from <a href='admin.php?page=educare-all-%s&import-data'>Import</a> tab."
+
+msgid "If you miss something or need to update, you can do this from <a href='admin.php?page=educare-all-%s&update-data'>Update Menu</a>. Also, you can import unlimited %s from <a href='admin.php?page=educare-all-%s&import-data'>Import</a> tab."
+
+msgid "Get data from specific student by roll no, regi no, class and year."
+
+msgid "Please carefully fill login information. If you want to disable login system, just <a href="/wp-admin/admin.php?page=educare-settings&menu=Security" target="_blank">Click here</a>, Then uncheck <b>User Profiles</b> options."
+
+msgid "You can <a href='%s' target='_blank'>Add More Rating Fields</a> from Educare management menu. Also, you can <a href='%s' target='_blank'>Disable Ratings System</a> from Educare settings."
+
+msgid "Click here to <a href="/wp-admin/admin.php?page=educare-settings&menu=Results_System" target="_blank">Disable Remarks System</a>."
+
+#. educare_guide_for()
+
+msgid "Click here to <a href='%s' target='_blank'>Add More Subject</a>."
+
+msgid "Click here to <a href='%s' target='_blank'>Add More Fields</a>."
+
+msgid "Click here to <a href="%s" target="_blank">Add More Group</a>."
+
+msgid "Click here to <a href='%s' target='_blank'>Disable Remarks System</a>."
+
+msgid "You can select multiple subject by pressing <code>Ctrl + Subject</code>."
+
+msgid "Do you want to add more <b>Class</b>, <b>Exam</b> or <b>Year</b>? Click here to add <a href='%s' target='_blank'>Class</a>, <a href='%s' target='_blank'>Exam</a> or <a href='%s' target='_blank'>Year</a>."
+
+msgid "Click here to <a href='%s' target='_blank'>Add More Subject</a>. You can also disable, hide and control one or more of these marks term from <a href='%s' target='_blank'>Card Settings</a>."
+
+msgid "Please <a href='%s' target='_blank'>Disable Auto Results</a> system from Educare settings to manually set <b>%s</b> or <b>%s</b>."
+
+msgid "If this student has an optional subject, then select optional subject. otherwise ignore it.<br><b>Note: It's important, when students will have a optional subject</b>."
+
+msgid "It is not possible to deactivate both (<b>Regi number or Roll number</b>). Because, it is difficult to find students without roll or regi number. So, you need to deactivate one of these (Regi or Roll Number). If your system has one of these, you can select it. Otherwise, it is better to have both selected (<b>Recommended</b>)."
+
+msgid "Something went wrong! Please fix it, Otherwise some of our plugin settings will be not work properly. So, please contact to your developer for solve this issue. Make sure to alabled educare <b>(AI) Problem Detection</b> options. Also, you can go to plugin (Educare) settings and press <b>Reset Settings</b> to fix this error. Hope you understand."
+
+#. educare_promote_students()
+
+msgid "Successfully %s %d students"
+
+msgid "No students were found for promotion."
+
+msgid "Total: %d students"
+
+msgid "Promote: %d students"
+
+msgid "Already exist: %d students"
+
+msgid "Failed: %s"
+
+msgid "Students have passed"
+
+msgid "Participated in the exam"
+
+msgid "New %s"
+
+msgid "Not required"
+
+msgid "Keep old (Class) data"
+
+msgid "Promote"
+
+#. Management
+
+msgid "Currently, you have not added any %1$s to this %2$s. Please add a %1$s for this %2$s using the form given below."
+
+msgid "Currently, you have not added any %1$s. Please add a %1$s using the form given below."
+
+msgid "Only characters, numbers and space allowed. (A-Za-z0-9)"
+
+msgid "Field Name"
+
+msgid "Number"
+
+msgid "Text"
+
+msgid "You must fill the form for add the <b>%s</b>."
+
+msgid "<b>%1$s</b> is allready exist!"
+
+msgid "Successfully Added <b>%1$s</b> at the %2$s list <br>Total: <b>%3$d</b> %2$s added."
+
+msgid "Sorry, its not possible to update empty field. You must fill the form for update the <b>%s</b>."
+
+msgid "Update failed. Because, <b>%1$s</b> is already exist in your selected %2$s list. Please try a different <i>(unique)</i> one!"
+
+msgid "Successfully update %1$s %2$s type <b class="error">%3$s</b> to <b class="success">%4$s</b>."
+
+msgid "Successfully update %1$s <b class="error">%2$s</b> to <b class="success">%3$s</b>."
+
+msgid "Successfully update %1$s <b class="error">%2$s</b> to <b class="success">%3$s</b>. also changed type <b class="error">%4$s</b> to <b class="success">%5$s</b>."
+
+msgid "Successfully removed <b>%1$s</b> from the %2$s list."
+
+msgid "Sorry, %1$s <b>%2$s</b> is not found!"
+
+msgid "Default settings reset successfully"
+
+msgid "Settings update was successful"
+
+msgid "Successfully updated default student photos"
+
+msgid "Somethink went wrong!</b> Maybe its a bug. Soon, we (Educare) will fix these issues after the next update"
+
+msgid "Successfully Added <b>%1$s</b> at the %2$s list<br>%3$s: <b>%4$s</b><br>Total: <b>%5$s</b> %2$s added."
+
+msgid "Successfully Added <b>%1$s</b> at the %2$s list."
+
+msgid "Successfully change %1$s <b class="error">%2$s</b> to <b class="success">%3$s</b>"
+
+msgid "Successfully update %1$s <b class="error">%2$s</b> to <b class="success">%3$s</b>. also changed %4$s <b class="error">%5$s</b> to <b class="success">%6$s</b>."
+
+msgid "Sorry, <b>%1$s</b> not exist<b></b> at the %2$s list<br>If you need to add subject in this (%1$s) %2$s. First, You need to add this (%1$s) in the %2$s list. Then, You would be allowed to add some subject."
+
+msgid "Sorry, you don\'t have added any %1$s yet. For adding a subject, you need to add a %1$s first. Then, you can add a subject for this %1$s."
+
+msgid "Results Shortcode"
+
+msgid "Certificate Shortcode"
+
+msgid "Results Page"
+
+msgid "Profiles Page"
+
+msgid "Enter your Front-End page slug (where you use educare shortcode in WP editor, template or any shortcode-ready area for front end results system). Don\'t need to insert with domain - <strike class="dissable">%s/</strike><span class="success"><code>results</code></span>. Only slug will be accepted, for exp: <code>results</code> or <code>index.php/results</code>."
+
+msgid "Copy and paste this <strong>`%1$s`</strong> shortcode in your editor, template or any shortcode-ready area for front end (%2$s)."
+
+msgid "Enter your front-end page slug, where you use <strong>`%1$s`</strong> shortcode in your editor, template or any shortcode-ready area for front end (%2$s)."
+
+msgid "<b>%1$s</b> is already exist in %2$s list"
+
+msgid "<b>%1$s</b> is already exist in your selected %2$s (%3$s)"
+
+#. educare_display_data()
+
+msgid "Based on your request: Total %1$s %2$s (user) found. Successfully delete %3$s %2$s. Error to delete %4$s %2$s."
+
+msgid "No user found to delete."
+
+msgid "Failed to delete user."
+
+msgid "User does not exist! in WP users list!"
+
+msgid "There was an error processing your request."
+
+msgid "No changes were found in this request."
+
+msgid "No %s found to delete"
+
+msgid "Successfully updated %s status"
+
+msgid "Successfully deleted %s"
+
+msgid "Successfully deleted all %s"
+
+msgid "Search and filte system is not showing. Because, There has been a critical error on this website. Please go to Educare settings, then scroll down and click <b>Reset Settings</b> button."
+
+msgid "Successfully updated (Educare) database. Click here to <a href="%s">Start</a>."
+
+msgid "<b>Database Update Required</b><p>Your current (Educare) database is old or corrupt, you need to update database to run new version <b>%d</b> of educare, it will only update <strong>Educare related database</strong>. Click to update database</p><p><strong>Please note:</strong> You should backup your (Educare) database before updating to this new version (only for v1.0.2 or earlier users).</p>"
+
+msgid "Oops! Something went wrong. Please visit (Educare) settings or <a href="%s">click here to fix</a>."
+
+#. Educare Settings
+
+msgid "Update Educare Database"
+
+msgid "Select Background"
+
+msgid "Remove BG"
+
+msgid "Type here to modify (%s)"
+
+msgid "No"
+
+msgid "Yes"
+
+msgid "Search Form"
+
+msgid "Default Fields"
+
+msgid "Certificate Card"
+
+msgid "Results Card"
+
+msgid "Card Settings"
+
+msgid "Results System"
+
+msgid "Security"
+
+msgid "Others"
+
+msgid "Advance Settings"
+
+msgid "Search Form Template"
+
+msgid "You can find more template from <a href="%s" target="_blank">Here</a>"
+
+msgid "INSTALLED"
+
+msgid "Template Settings"
+
+msgid "Default value"
+
+msgid "Results Button"
+
+msgid "Results button title"
+
+msgid "Certificate Button"
+
+msgid "Certificate button title"
+
+msgid "Certificate Header"
+
+msgid "Header of the certificate. Aslo you can use embed variable to show specific data. (Supported embed var: {name}, {exam}, {year}, {gpa} and {dob}.)"
+
+msgid "All options are performed based on the active template. So make sure, your active template supports these options."
+
+msgid "Sub Header"
+
+msgid "Sub header for certificate"
+
+msgid "Certify Text"
+
+msgid "Sub header for certificate"
+
+msgid "Name of the students"
+
+msgid "More information about the students"
+
+msgid "Bottom Left"
+
+msgid "Certificate bottom (left site) text"
+
+msgid "Buttom Right"
+
+msgid "Certificate bottom (right site) text"
+
+msgid "Custom Background"
+
+msgid "Select custom background for certificate template. If you want to change your selected template background, you can easily select your custom certificate template from here."
+
+msgid "Show Banner"
+
+msgid "Show or Hide banner (Title, Subtitle and Logo) in results card"
+
+msgid "Students Photos"
+
+msgid "Show or Hide students photos"
+
+msgid "Student Info"
+
+msgid "Show information of students on result card"
+
+msgid "Students Details"
+
+msgid "Grade Sheet"
+
+msgid "Show the grade sheet on the result card"
+
+msgid "Quick Overview"
+
+msgid "Disable this option when don't need to quick overview section on results card"
+
+msgid "Print Only Remarks"
+
+msgid "Hide remarks section from front-end result card and show only when print results. Checked this when you want to hide remarks from fornt end and Unchecked when need show remarks section both (front-end and also print)."
+
+msgid "Failed Status"
+
+msgid "Define text when results is failed"
+
+msgid "Optional Subject Detection"
+
+msgid "Define optional subject identifier character/symbol. In this way educare define and identify optional subjects when you add or import results."
+
+msgid "Group Based Subject"
+
+msgid "Automatically calculate students results status Passed/Failed and GPA"
+
+msgid "Define how many subject in each group. For disable or unlimited set <code>0</code>"
+
+msgid "Position Filtering"
+
+msgid "Filter position based on passed or failed status (Every single subject). Example: S1 fails in 2 subjects and S2 in 1 subject. In this case, S1 will be in first and other person will be in second position. Because, S2 failed in less subjects than S1."
+
+msgid "Certificate System"
+
+msgid "This features allow students to view and download certificate"
+
+msgid "Rattings System"
+
+msgid "This features allow to remarks student with rattings skale"
+
+msgid "Remarks System"
+
+msgid "If you don't need to remarks section, judt uncheck it"
+
+msgid "User Profiles"
+
+msgid "Students or Teachers can login their profiles and access roles based data. If you don't need this just disable it."
+
+msgid "Google Re-Captcha"
+
+msgid "Enable google recaptcha to improve security. Here, You need to enter/paste your google re-captcha v2 site or secret key. (Currently it's only supports <b>ReCaptcha V2</b>)"
+
+msgid "Site Key"
+
+msgid "Paste your google re-captcha v2 site key:"
+
+msgid "Secret Key"
+
+msgid "Paste your google re-captcha v2 secret key:"
+
+msgid "Data Per Page"
+
+msgid "Define how many data display on one page. This is for default paginaton. You can change it anytime"
+
+msgid "Guidelines"
+
+msgid "Enable this options to receive smart guidance or help messages. These features guide you to - how to use educare (recommended for new users)."
+
+msgid "Delete confirmation"
+
+msgid "Enable these options to get a popup confirmation when you delete something."
+
+msgid "Copy Import Data"
+
+msgid "<strong>Recommendation:</strong> Allow this option when your systems don't allow to download import file. If you enable this options, all demo data will be show in text box. You can copy and paste this data into csv files."
+
+msgid "Enable these options to access or view the Advanced/Developer menu. (This is only for developers or advanced users)."
+
+msgid "(AI) Problem Detection"
+
+msgid "Automatically detect and fix Educare related problems. Recommended to enable this options when update Educare."
+
+msgid "Clear Data"
+
+msgid "Clear all (Educare) data from database when you uninstall or delete Educare from plugin list? Make sure to disable it while updating Educare"
+
+msgid "Save"
+
+msgid "Reset Settings"
+
+msgid "Grading Systems"
+
+msgid "There has been a critical issues on this website. Please scroll down and click <b>Reset Settings</b> button."
+
+msgid "Hide or show %1$s header (h2) title from the results. If you want to disable the entire %1$s section from the card, please scroll down and uncheck <b>Students %1$s</b>"
+
+msgid "Photos URL (full path)"
+
+msgid "Instutions name or slogan"
+
+msgid "Address or something like this"
+
+msgid "Year or something like this"
+
+msgid "Sub Titile"
+
+msgid "Placeholder"
+
+msgid "Select Type"
+
+msgid "Auto Results"
+
+msgid "Hide Fields"
+
+msgid "Options Value"
+
+#. Messeges
+
+msgid "If you want to disable the class from <b>View Results</b> and <b>Front-End</b> search form, you can disable it. But you need to fill in the class while adding or importing results."
+
+msgid "If you want to disable the exam from <b>View Results</b> and <b>Front-End</b> search form, you can disable it. But you need to fill in the exam while adding or importing results."
+
+msgid "<b class='error'>You can't disable year!</b><hr>Because, without year will be a bit complicated to specifying data. But, you can rename it. like - Passing Year, Exam Year..."
+
+msgid "<b>Protected Results</b><hr>Protected results allow users to search results with password/pin. Using this features you can show results for specific users only."
+
+msgid "Passed Status"
+
+msgid "Define text when results is passed"
+
+msgid "Shortcode"
+
+msgid "Profiles Shortcode"
+
+msgid "Both (Results and Certificate)"
+
+msgid "Optional Subject</b><hr>If this student or your results system has an optional subject, then mark this. otherwise ignore it."
+
+msgid "<strong>Mark not visible when print?</strong><br> Please, fill up students marks and save. Then, select <b>Students List</b> again and print marksheet (Save then Print)."
+
+msgid "Signathure"
+
+msgid "Old Data"
+
+msgid "Last Exam"
+
+msgid "Average"
+
+msgid "Curent Status"
+
+msgid "Analytics"
+
+msgid "%1$s is already exist in %2$s list"
+
+msgid "Educare <b>Settings</b> database not found."
+
+msgid "You mast fill <b>%s</b>"
+
+msgid "<b>The Google Recaptcha checkbox field is hidden. Please enter/paste your google recaptcha v2 site key at</b><hr><a href="%s" target="_blank"><code>Educare > Settings > Security > Site Key</code></a><br><small>Notes: Only admin can view these messages</small>"
+
+msgid "View Results"
+
+msgid "Get Certificate"
+
+msgid "No Data"
+
+msgid "Ratting data not found"
+
+msgid "Search Again"
+
+msgid "Print"
+
+#. educare_files_selector()
+
+msgid "Students Photos"
+
+msgid "If you change students photos, Please upload or select  a custom photos from gallery that's you want!"
+
+msgid "Default Photos"
+
+msgid "Current students photos are default. Please upload or select  a custom photos from gallery that's you want!"
+
+msgid "Please select a students photos"
+
+msgid "Upload Students Photos"
+
+msgid "No biographical information available."
+
+msgid "Sorry error to load user!"
+
+msgid "Students Profiles"
+
+msgid "Edit Profiles"
+
+msgid "Teachers Profiles"
+
+msgid "Logout"
+
+msgid "Institute"
+
+msgid "Type"
+
+msgid "Quiz"
+
+msgid "Mobile No"
+
+msgid "Subject List (can access)"
+
+msgid "Admin Profiles"
+
+msgid "Dashboard"
+
+msgid "Roles"
+
+msgid "No roles found for the user."
+
+msgid "Registered"
+
+msgid "Results not available or published yet."
+
+msgid "Absent"
+
+msgid "Late"
+
+msgid "Present"
+
+msgid "Attendance Details"
+
+msgid "Payment"
+
+msgid "Analysis"
+
+#. About Us
+
+msgid "Educare is a powerful online School, College, students & results management system dev by %s. This plugin allows you to manage and publish students results. This is a school, college, students & results management plugin that was created to easily manage institute, academy or student results at online."
+
+msgid "Educare help you to easily control over your institute students at online. You can easily Add/Edit/Delete Teachers, Students, Results, Class, Group, Exam, Rating Scale, Year, Extra Field, Custom Result Rules, Auto result calculations and much more… Also you can add marks, promote or import & export unlimited students and results just one click!"
+
+msgid "Our Vision"
+
+msgid "We are committed to adjust your results system with Educare. Because, we believe in freedom and understand the value of your project. So, get in touch and help us deliver your project!"
+
+msgid "Our Mission"
+
+msgid "Our mission is to build a great software that will reform education. Our future plan is to make Educare a fully virtual school."

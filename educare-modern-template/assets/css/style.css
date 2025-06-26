@@ -1,0 +1,10 @@
+@media print {
+  @page modern-result-page {
+    size: 400mm 520mm;
+    margin: 10mm;
+  }
+
+  body {
+    page: modern-result-page;
+  }
+}
