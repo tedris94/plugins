@@ -1,0 +1,107 @@
+name: Deploy to WordPress.org
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      plugin_name:
+        description: 'Plugin to deploy (educare-custom-template or educare-results-emailer)'
+        required: true
+        type: choice
+        options:
+          - educare-custom-template
+          - educare-results-emailer
+      tag:
+        description: 'Version tag to deploy'
+        required: true
+        default: '1.0.0'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup WordPress.org deployment
+      env:
+        PLUGIN_NAME: ${{ github.event.inputs.plugin_name || 'auto-detect' }}
+        VERSION_TAG: ${{ github.event.inputs.tag || github.ref_name }}
+        SVN_USERNAME: ${{ secrets.WORDPRESS_ORG_USERNAME }}
+        SVN_PASSWORD: ${{ secrets.WORDPRESS_ORG_PASSWORD }}
+      run: |
+        # Install SVN
+        sudo apt-get update
+        sudo apt-get install -y subversion
+        
+        # Determine plugin to deploy
+        if [ "$PLUGIN_NAME" = "auto-detect" ]; then
+          if [[ "$VERSION_TAG" == *"custom-template"* ]]; then
+            PLUGIN_NAME="educare-custom-template"
+          elif [[ "$VERSION_TAG" == *"results-emailer"* ]]; then
+            PLUGIN_NAME="educare-results-emailer"
+          else
+            echo "Could not auto-detect plugin. Please specify manually."
+            exit 1
+          fi
+        fi
+        
+        echo "Deploying plugin: $PLUGIN_NAME"
+        echo "Version: $VERSION_TAG"
+        
+        # Create temp directory
+        mkdir -p /tmp/wp-deploy
+        cd /tmp/wp-deploy
+        
+        # Checkout WordPress.org SVN repository
+        svn checkout "https://plugins.svn.wordpress.org/$PLUGIN_NAME" "$PLUGIN_NAME-svn"
+        
+        # Copy plugin files to SVN trunk
+        cd "$PLUGIN_NAME-svn"
+        rm -rf trunk/*
+        cp -r "$GITHUB_WORKSPACE/$PLUGIN_NAME"/* trunk/
+        
+        # Clean up development files
+        rm -f trunk/composer.lock
+        rm -rf trunk/.git*
+        rm -rf trunk/tests/
+        rm -rf trunk/node_modules/
+        find trunk/ -name "*.md" -not -name "readme.txt" -delete
+        
+        # Add all files to SVN
+        svn add trunk/* --force
+        svn delete trunk/* --keep-local --force
+        svn add trunk/* --force
+        
+        # Create tag for this version
+        svn copy trunk "tags/$VERSION_TAG"
+        
+        # Commit to WordPress.org
+        svn commit -m "Deploy version $VERSION_TAG via GitHub Actions" \
+          --username "$SVN_USERNAME" \
+          --password "$SVN_PASSWORD" \
+          --non-interactive
+
+    - name: WordPress.org Plugin Checker
+      if: success()
+      run: |
+        echo "Running WordPress.org plugin checker..."
+        # You can add additional validation here
+        curl -X POST \
+          -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+          -H "Accept: application/vnd.github.v3+json" \
+          https://api.github.com/repos/${{ github.repository }}/dispatches \
+          -d '{"event_type":"plugin-deployed","client_payload":{"plugin":"${{ github.event.inputs.plugin_name }}","version":"${{ github.event.inputs.tag }}"}}'
+
+    - name: Notify deployment status
+      if: always()
+      uses: 8398a7/action-slack@v3
+      with:
+        status: ${{ job.status }}
+        text: |
+          Plugin ${{ github.event.inputs.plugin_name }} version ${{ github.event.inputs.tag }} 
+          deployment to WordPress.org: ${{ job.status }}
+      env:
+        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }} 

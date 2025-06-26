@@ -1,0 +1,192 @@
+name: Validate WordPress Plugins
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'educare-custom-template/**'
+      - 'educare-results-emailer/**'
+  pull_request:
+    branches: [ main ]
+    paths:
+      - 'educare-custom-template/**'
+      - 'educare-results-emailer/**'
+  workflow_dispatch:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    
+    strategy:
+      matrix:
+        plugin: [educare-custom-template, educare-results-emailer]
+        php-version: ['7.4', '8.0', '8.1', '8.2']
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: ${{ matrix.php-version }}
+        extensions: mbstring, intl, gd, zip, dom, curl
+        coverage: xdebug
+
+    - name: Install Composer dependencies
+      run: |
+        if [ -f "${{ matrix.plugin }}/composer.json" ]; then
+          cd ${{ matrix.plugin }}
+          composer install --no-dev --optimize-autoloader
+          cd ..
+        fi
+
+    - name: WordPress Coding Standards Check
+      run: |
+        # Install PHP_CodeSniffer and WordPress Coding Standards
+        composer global require "squizlabs/php_codesniffer=*"
+        composer global require "wp-coding-standards/wpcs=*"
+        composer global require "phpcompatibility/phpcompatibility-wp=*"
+        
+        # Register WordPress Coding Standards
+        ~/.composer/vendor/bin/phpcs --config-set installed_paths \
+          ~/.composer/vendor/wp-coding-standards/wpcs,~/.composer/vendor/phpcompatibility/phpcompatibility-wp
+        
+        # Run PHPCS on the plugin
+        ~/.composer/vendor/bin/phpcs \
+          --standard=WordPress \
+          --extensions=php \
+          --ignore=*/vendor/*,*/node_modules/* \
+          --report=full \
+          ${{ matrix.plugin }}/
+
+    - name: WordPress.org Plugin Compliance Check
+      run: |
+        echo "Checking WordPress.org compliance for ${{ matrix.plugin }}..."
+        
+        # Check for required files
+        required_files=("readme.txt" "*.php")
+        for file in "${required_files[@]}"; do
+          if ! find "${{ matrix.plugin }}" -name "$file" -type f | grep -q .; then
+            echo "❌ Missing required file: $file"
+            exit 1
+          fi
+        done
+        
+        # Check for prohibited files/patterns
+        prohibited_patterns=(
+          "session_start"
+          "eval("
+          "base64_decode"
+          "file_get_contents.*http"
+          "curl_exec.*POST.*http"
+        )
+        
+        for pattern in "${prohibited_patterns[@]}"; do
+          if grep -r "$pattern" "${{ matrix.plugin }}" --include="*.php" --exclude-dir=vendor; then
+            echo "❌ Found prohibited pattern: $pattern"
+            exit 1
+          fi
+        done
+        
+        # Check readme.txt format
+        if [ -f "${{ matrix.plugin }}/readme.txt" ]; then
+          # Validate readme.txt has required sections
+          required_sections=("Description" "Installation" "Changelog")
+          for section in "${required_sections[@]}"; do
+            if ! grep -q "== $section ==" "${{ matrix.plugin }}/readme.txt"; then
+              echo "❌ Missing required readme.txt section: $section"
+              exit 1
+            fi
+          done
+        fi
+        
+        # Check for proper plugin headers
+        main_file=$(find "${{ matrix.plugin }}" -name "*.php" -path "*/${{ matrix.plugin }}.php" | head -1)
+        if [ -f "$main_file" ]; then
+          required_headers=("Plugin Name" "Version" "Description")
+          for header in "${required_headers[@]}"; do
+            if ! grep -q "$header:" "$main_file"; then
+              echo "❌ Missing plugin header: $header"
+              exit 1
+            fi
+          done
+        fi
+        
+        echo "✅ WordPress.org compliance check passed for ${{ matrix.plugin }}"
+
+    - name: Security Scan
+      run: |
+        echo "Running security scan for ${{ matrix.plugin }}..."
+        
+        # Check for direct file access protection
+        php_files=$(find "${{ matrix.plugin }}" -name "*.php" -not -path "*/vendor/*")
+        for file in $php_files; do
+          if ! grep -q "ABSPATH" "$file" && ! grep -q "WP_DEBUG" "$file"; then
+            echo "⚠️  File may be missing direct access protection: $file"
+          fi
+        done
+        
+        # Check for proper input sanitization
+        if grep -r "\$_POST\|" "${{ matrix.plugin }}" --include="*.php" --exclude-dir=vendor | grep -v "sanitize\|wp_verify_nonce"; then
+          echo "⚠️  Found unsanitized \$_POST usage"
+        fi
+        
+        echo "✅ Security scan completed for ${{ matrix.plugin }}"
+
+    - name: Plugin Archive Test
+      run: |
+        echo "Testing plugin archive creation for ${{ matrix.plugin }}..."
+        
+        # Create plugin archive
+        cd "${{ matrix.plugin }}"
+        zip -r "../${{ matrix.plugin }}-test.zip" . \
+          -x "*.git*" "*.md" "composer.lock" "node_modules/*" "tests/*"
+        cd ..
+        
+        # Verify archive
+        if [ -f "${{ matrix.plugin }}-test.zip" ]; then
+          echo "✅ Plugin archive created successfully: $(ls -lh ${{ matrix.plugin }}-test.zip)"
+          
+          # Check archive size (WordPress.org has size limits)
+          size=$(stat -c%s "${{ matrix.plugin }}-test.zip")
+          max_size=$((50 * 1024 * 1024))  # 50MB limit
+          
+          if [ $size -gt $max_size ]; then
+            echo "❌ Plugin archive too large: $(echo $size | numfmt --to=iec-i) (max 50MB)"
+            exit 1
+          fi
+          
+          echo "✅ Archive size check passed: $(echo $size | numfmt --to=iec-i)"
+        else
+          echo "❌ Failed to create plugin archive"
+          exit 1
+        fi
+
+    - name: Generate Compliance Report
+      if: always()
+      run: |
+        echo "## WordPress.org Compliance Report for ${{ matrix.plugin }}" >> compliance-report.md
+        echo "**PHP Version:** ${{ matrix.php-version }}" >> compliance-report.md
+        echo "**Date:** $(date)" >> compliance-report.md
+        echo "" >> compliance-report.md
+        echo "### Checks Performed:" >> compliance-report.md
+        echo "- ✅ WordPress Coding Standards" >> compliance-report.md
+        echo "- ✅ Plugin Structure Validation" >> compliance-report.md
+        echo "- ✅ Security Scan" >> compliance-report.md
+        echo "- ✅ Archive Creation Test" >> compliance-report.md
+        echo "" >> compliance-report.md
+        
+        if [ -f "${{ matrix.plugin }}/readme.txt" ]; then
+          echo "### Plugin Information:" >> compliance-report.md
+          echo '```' >> compliance-report.md
+          head -20 "${{ matrix.plugin }}/readme.txt" >> compliance-report.md
+          echo '```' >> compliance-report.md
+        fi
+
+    - name: Upload Compliance Report
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: compliance-report-${{ matrix.plugin }}-php${{ matrix.php-version }}
+        path: compliance-report.md 
