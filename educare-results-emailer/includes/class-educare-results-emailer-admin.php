@@ -1348,34 +1348,40 @@ class Educare_Results_Emailer_Admin {
         }
 
     public function update_bulk_mail_template() {
-        if (isset($_POST['update_bulk_mail_template']) && isset($_POST['bulk_mail_template_nonce'])) {
+        if (isset($_POST['save_bulk_mail_template']) && isset($_POST['bulk_mail_template_nonce'])) {
             if (wp_verify_nonce($_POST['bulk_mail_template_nonce'], 'educare_bulk_mail_template')) {
                 $template = wp_kses_post($_POST['bulk_mail_template']);
-                $subject = sanitize_text_field($_POST['email_subject']);
                 
-                // Save the template and subject
+                // Log the attempt for debugging
+                error_log('Educare Results Emailer: Attempting to save template. Length: ' . strlen($template));
+                
+                // Save the template - force update even if value is the same
                 $template_updated = update_option('educare_bulk_mail_template', $template);
-                $subject_updated = update_option('educare_email_subject', $subject);
                 
-                if ($template_updated || $subject_updated) {
+                // Log the result
+                error_log('Educare Results Emailer: Template update result: ' . ($template_updated ? 'true' : 'false'));
+                
+                // Handle the case where update_option returns false because value is the same
+                if ($template_updated !== false || get_option('educare_bulk_mail_template') === $template) {
                     // Add success message
                     add_action('admin_notices', function() {
                         echo '<div class="notice notice-success is-dismissible"><p>' . 
-                             __('Email settings updated successfully.', 'educare-results-emailer') . 
+                             __('Email template saved successfully.', 'educare-results-emailer') . 
                              '</p></div>';
                     });
+                    error_log('Educare Results Emailer: Template saved successfully');
                 } else {
                     // Add error message
                     add_action('admin_notices', function() {
                         echo '<div class="notice notice-error is-dismissible"><p>' . 
-                             __('Failed to update email settings. Please try again.', 'educare-results-emailer') . 
+                             __('Failed to save email template. Please check database permissions and try again.', 'educare-results-emailer') . 
                              '</p></div>';
                     });
+                    error_log('Educare Results Emailer: Failed to save template');
                 }
                 
-                // Redirect to prevent form resubmission
-                wp_safe_redirect(add_query_arg('page', 'educare-results-emailer', admin_url('admin.php')));
-                exit;
+                // Don't redirect on shared hosting - just continue to show the page
+                // This prevents redirect loop issues on some shared hosting providers
             } else {
                 // Invalid nonce
                 add_action('admin_notices', function() {
@@ -1383,6 +1389,7 @@ class Educare_Results_Emailer_Admin {
                          __('Security check failed. Please try again.', 'educare-results-emailer') . 
                          '</p></div>';
                 });
+                error_log('Educare Results Emailer: Template save failed - invalid nonce');
             }
         }
     }
@@ -1507,44 +1514,77 @@ class Educare_Results_Emailer_Admin {
     public function handle_logo_settings() {
         if (isset($_POST['save_logo_settings']) && isset($_POST['email_logo_nonce'])) {
             if (wp_verify_nonce($_POST['email_logo_nonce'], 'educare_email_logo_settings')) {
+                // Use WordPress uploads directory instead of plugin directory
+                $upload = wp_upload_dir();
+                $upload_dir = $upload['basedir'] . '/educare-logos';
+                $upload_url = $upload['baseurl'] . '/educare-logos';
+                
                 // Create upload directory if it doesn't exist
-                $upload_dir = plugin_dir_path(dirname(__FILE__)) . 'admin/images/school-logo';
                 if (!file_exists($upload_dir)) {
                     wp_mkdir_p($upload_dir);
                 }
 
+                // Handle logo removal first
+                if (isset($_POST['remove_logo'])) {
+                    $current_logo = get_option('educare_email_school_logo');
+                    if ($current_logo) {
+                        // Delete the file if it exists in our uploads directory
+                        $filename = basename($current_logo);
+                        $filepath = $upload_dir . '/' . $filename;
+                        if (file_exists($filepath)) {
+                            unlink($filepath);
+                        }
+                        delete_option('educare_email_school_logo');
+                        
+                        add_action('admin_notices', function() {
+                            echo '<div class="notice notice-success is-dismissible"><p>' . 
+                                 __('Logo removed successfully.', 'educare-results-emailer') . 
+                                 '</p></div>';
+                        });
+                    }
+                    return;
+                }
+
                 // Handle school logo upload
                 if (!empty($_FILES['school_logo']['name'])) {
-                    $school_logo = $this->handle_logo_upload($_FILES['school_logo'], $upload_dir);
+                    $school_logo = $this->handle_logo_upload($_FILES['school_logo'], $upload_dir, $upload_url);
                     if ($school_logo) {
                         update_option('educare_email_school_logo', $school_logo);
+                        
+                        add_action('admin_notices', function() {
+                            echo '<div class="notice notice-success is-dismissible"><p>' . 
+                                 __('Logo uploaded successfully.', 'educare-results-emailer') . 
+                                 '</p></div>';
+                        });
                     }
+                } else {
+                    add_action('admin_notices', function() {
+                        echo '<div class="notice notice-info is-dismissible"><p>' . 
+                             __('No new logo file selected.', 'educare-results-emailer') . 
+                             '</p></div>';
+                    });
                 }
-
-                // Handle fallback logo upload
-                if (!empty($_FILES['fallback_logo']['name'])) {
-                    $fallback_logo = $this->handle_logo_upload($_FILES['fallback_logo'], $upload_dir);
-                    if ($fallback_logo) {
-                        update_option('educare_email_fallback_logo', $fallback_logo);
-                    }
-                }
-
-                add_action('admin_notices', function() {
-                    echo '<div class="notice notice-success is-dismissible"><p>' . 
-                         __('Logo settings saved successfully.', 'educare-results-emailer') . 
-                         '</p></div>';
-                });
             }
         }
     }
 
-    private function handle_logo_upload($file, $upload_dir) {
+    private function handle_logo_upload($file, $upload_dir, $upload_url) {
         // Check file type
         $allowed_types = array('image/jpeg', 'image/png', 'image/gif');
         if (!in_array($file['type'], $allowed_types)) {
             add_action('admin_notices', function() {
                 echo '<div class="notice notice-error is-dismissible"><p>' . 
                      __('Invalid file type. Please upload a JPEG, PNG, or GIF image.', 'educare-results-emailer') . 
+                     '</p></div>';
+            });
+            return false;
+        }
+
+        // Check file size (limit to 2MB)
+        if ($file['size'] > 2097152) {
+            add_action('admin_notices', function() {
+                echo '<div class="notice notice-error is-dismissible"><p>' . 
+                     __('File too large. Please upload an image smaller than 2MB.', 'educare-results-emailer') . 
                      '</p></div>';
             });
             return false;
@@ -1557,12 +1597,12 @@ class Educare_Results_Emailer_Admin {
         // Move uploaded file
         if (move_uploaded_file($file['tmp_name'], $filepath)) {
             // Return the URL to the uploaded file
-            return plugins_url('admin/images/school-logo/' . $filename, dirname(__FILE__));
+            return $upload_url . '/' . $filename;
         }
 
         add_action('admin_notices', function() {
             echo '<div class="notice notice-error is-dismissible"><p>' . 
-                 __('Failed to upload logo. Please try again.', 'educare-results-emailer') . 
+                 __('Failed to upload logo. Please check directory permissions and try again.', 'educare-results-emailer') . 
                  '</p></div>';
         });
         return false;
@@ -5776,10 +5816,10 @@ class Educare_Results_Emailer_Admin {
                         </tr>';
                 
                 foreach ($skills as $skill => $rating) {
-                    $html .= '<tr>
-                        <td>' . esc_html($skill) . '</td>
-                        <td>' . esc_html($rating) . '</td>
-                    </tr>';
+                    $html .= '<tr>';
+                    $html .= '<td>' . esc_html($skill) . '</td>';
+                    $html .= '<td>' . esc_html($rating) . '</td>';
+                    $html .= '</tr>';
                 }
                 
                 $html .= '</table>

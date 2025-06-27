@@ -181,7 +181,7 @@ if (!defined('ABSPATH')) {
         <p>Upload and manage school logo for email templates.</p>
         
         <form method="post" action="" enctype="multipart/form-data">
-            <?php wp_nonce_field('educare_logo_settings', 'logo_settings_nonce'); ?>
+            <?php wp_nonce_field('educare_email_logo_settings', 'email_logo_nonce'); ?>
             
             <div class="form-group">
                 <label for="school_logo">School Logo:</label>
