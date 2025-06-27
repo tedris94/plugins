@@ -73,6 +73,7 @@ td[style*="background-color"] {
     height: auto;
     white-space: nowrap;
     max-width: 200px;
+    line-height: 1.1;
 }
 
 /* Reduce width of column 1 */
@@ -104,8 +105,9 @@ td[style*="background-color"] {
 }
 
 .student-details-table img {
-    width: 100%;
-    height: auto;
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
 }
 
 /* Grade Sheet */
@@ -242,14 +244,20 @@ img {
     height: auto;
 }
 
-img[alt="Signature"] {
-    width: 40px;
-    height: auto;
+img[alt="Signature"],
+img[alt*="Signature"],
+img[alt*="signature"] {
+    width: 60px;
+    height: 30px;
+    object-fit: contain;
+    border: 1px solid #ddd;
 }
 
-img[alt="Student Image"] {
-    width: 120px;
-    height: 150px;
+img[alt="Student Image"],
+img[alt*="Student Photo"],
+img[alt*="student photo"] {
+    width: 80px;
+    height: 80px;
     object-fit: contain;
     border: 1px solid #ccc;
     border-radius: 4px;
@@ -480,7 +488,8 @@ img[alt="Student Image"] {
     
     .student-details-table img {
         width: 60px;
-        height: 75px;
+        height: 60px;
+        object-fit: contain;
     }
     
     /* Mobile grade sheet */

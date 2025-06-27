@@ -87,7 +87,7 @@ class Educare_Results_Emailer_Admin {
         $has_access = $this->user_has_plugin_access();
         
         if ($has_access) {
-            add_submenu_page(
+            $hook = add_submenu_page(
                 'educare-all-students', // Parent slug - main Educare menu
                 __('Send Results via Email', 'educare-results-emailer'),
                 __('Send Results Email', 'educare-results-emailer'),
@@ -95,7 +95,14 @@ class Educare_Results_Emailer_Admin {
                 'educare-results-emailer',
                 array($this, 'display_plugin_admin_page')
             );
+            
+            // Enqueue media library scripts on this page
+            add_action('admin_print_scripts-' . $hook, array($this, 'enqueue_media_library_scripts'));
         }
+    }
+    
+    public function enqueue_media_library_scripts() {
+        wp_enqueue_media();
     }
 
     public function display_plugin_admin_page() {
@@ -1514,26 +1521,34 @@ class Educare_Results_Emailer_Admin {
     public function handle_logo_settings() {
         if (isset($_POST['save_logo_settings']) && isset($_POST['email_logo_nonce'])) {
             if (wp_verify_nonce($_POST['email_logo_nonce'], 'educare_email_logo_settings')) {
-                // Use WordPress uploads directory instead of plugin directory
-                $upload = wp_upload_dir();
-                $upload_dir = $upload['basedir'] . '/educare-logos';
-                $upload_url = $upload['baseurl'] . '/educare-logos';
-                
-                // Create upload directory if it doesn't exist
-                if (!file_exists($upload_dir)) {
-                    wp_mkdir_p($upload_dir);
-                }
-
-                // Handle logo removal first
-                if (isset($_POST['remove_logo'])) {
-                    $current_logo = get_option('educare_email_school_logo');
-                    if ($current_logo) {
-                        // Delete the file if it exists in our uploads directory
-                        $filename = basename($current_logo);
-                        $filepath = $upload_dir . '/' . $filename;
-                        if (file_exists($filepath)) {
-                            unlink($filepath);
+                // Handle media library logo selection
+                if (isset($_POST['school_logo_id'])) {
+                    $logo_id = intval($_POST['school_logo_id']);
+                    
+                    if ($logo_id > 0) {
+                        // Verify the attachment exists
+                        $attachment = get_post($logo_id);
+                        if ($attachment && $attachment->post_type === 'attachment') {
+                            // Save the logo ID and URL
+                            update_option('educare_email_school_logo_id', $logo_id);
+                            $logo_url = wp_get_attachment_image_url($logo_id, 'full');
+                            update_option('educare_email_school_logo', $logo_url);
+                            
+                            add_action('admin_notices', function() {
+                                echo '<div class="notice notice-success is-dismissible"><p>' . 
+                                     __('Logo saved successfully.', 'educare-results-emailer') . 
+                                     '</p></div>';
+                            });
+                        } else {
+                            add_action('admin_notices', function() {
+                                echo '<div class="notice notice-error is-dismissible"><p>' . 
+                                     __('Invalid logo selection. Please try again.', 'educare-results-emailer') . 
+                                     '</p></div>';
+                            });
                         }
+                    } else {
+                        // Remove logo if ID is 0 or empty
+                        delete_option('educare_email_school_logo_id');
                         delete_option('educare_email_school_logo');
                         
                         add_action('admin_notices', function() {
@@ -1542,25 +1557,10 @@ class Educare_Results_Emailer_Admin {
                                  '</p></div>';
                         });
                     }
-                    return;
-                }
-
-                // Handle school logo upload
-                if (!empty($_FILES['school_logo']['name'])) {
-                    $school_logo = $this->handle_logo_upload($_FILES['school_logo'], $upload_dir, $upload_url);
-                    if ($school_logo) {
-                        update_option('educare_email_school_logo', $school_logo);
-                        
-                        add_action('admin_notices', function() {
-                            echo '<div class="notice notice-success is-dismissible"><p>' . 
-                                 __('Logo uploaded successfully.', 'educare-results-emailer') . 
-                                 '</p></div>';
-                        });
-                    }
                 } else {
                     add_action('admin_notices', function() {
                         echo '<div class="notice notice-info is-dismissible"><p>' . 
-                             __('No new logo file selected.', 'educare-results-emailer') . 
+                             __('No logo changes made.', 'educare-results-emailer') . 
                              '</p></div>';
                     });
                 }
@@ -2602,8 +2602,8 @@ class Educare_Results_Emailer_Admin {
                         padding: 0;
                         background: white;
                         font-family: Arial, sans-serif;
-                        font-size: 9.5pt;
-                        line-height: 1.2;
+                        font-size: 8.5pt;
+                        line-height: 1.1;
                     }
                     
                     .result_body {
@@ -2627,10 +2627,10 @@ class Educare_Results_Emailer_Admin {
                     }
                     
                     .school-address {
-                        font-size: 9.5pt !important;
-                        margin: 5mm 0;
-                        margin-top: -2px;
-                        margin-bottom: 10px;
+                        font-size: 8pt !important;
+                        margin: 3mm 0;
+                        margin-top: -15px !important;
+                        margin-bottom: 8px;
                         text-align: center;
                     }
                     
@@ -2648,9 +2648,9 @@ class Educare_Results_Emailer_Admin {
                     
                     td {
                         border: 1px solid #000;
-                        padding: 2px;
-                        font-size: 9.5pt;
-                        line-height: 1.2;
+                        padding: 1.5px;
+                        font-size: 8pt;
+                        line-height: 1.1;
                     }
                     
                     /* Header styling */
@@ -2661,11 +2661,7 @@ class Educare_Results_Emailer_Admin {
                         text-align: center;
                     }
                     
-                    /* Student photo */
-                    .student-details-table img {
-                        max-width: 80px;
-                        height: auto;
-                    }
+
                     
                     /* Skills section */
                     .skills table {
@@ -2688,12 +2684,27 @@ class Educare_Results_Emailer_Admin {
                         width: 100%;
                     }
                     
-                    /* Signature images */
-                    .remarks img {
-                        max-width: 40px;
-                        height: auto;
-                        border: 1px solid #ddd;
-                        border-radius: 4px;
+                    /* Signature images - Enhanced for PDF */
+                    .remarks img,
+                    img[alt*="Signature"],
+                    img[alt*="signature"] {
+                        width: 60px !important;
+                        height: 30px !important;
+                        max-width: 60px !important;
+                        max-height: 30px !important;
+                        object-fit: contain !important;
+                        border: 1px solid #ddd !important;
+                        border-radius: 4px !important;
+                        display: inline-block !important;
+                    }
+                    
+                    /* Specific signature styling for table cells */
+                    td img[alt*="Signature"],
+                    td img[alt*="signature"] {
+                        width: 60px !important;
+                        height: 30px !important;
+                        max-width: 60px !important;
+                        max-height: 30px !important;
                     }
                     
                     /* Hide print buttons in PDF */
@@ -2701,9 +2712,24 @@ class Educare_Results_Emailer_Admin {
                         display: none !important;
                     }
                     
-                    /* Page breaks */
+                    /* Page breaks and sizing for single page */
+                    @page {
+                        size: A4;
+                        margin: 10mm;
+                    }
+                    
                     .grade-sheet, .skills, .grading-key, .overview, .remarks {
                         page-break-inside: avoid;
+                        margin-bottom: 3mm;
+                    }
+                    
+                    /* Compact spacing for single page fit */
+                    table {
+                        margin-bottom: 3mm !important;
+                    }
+                    
+                    .bos-banner img {
+                        max-height: 50px !important;
                     }
                     
                     /* School address */
@@ -2851,11 +2877,47 @@ class Educare_Results_Emailer_Admin {
                                     <td><?php echo esc_html($student->Class); ?></td>
                                     <td>Admission No</td>
                                     <td><?php echo esc_html($student->Regi_No); ?></td>
-                                    <td rowspan="5" style="text-align: center; background-color: #f8f9fa; color: #6c757d; font-style: italic;">
-                                        <!-- Photo section disabled for PDF reliability -->
-                                        <div style="padding: 20px; border: 1px dashed #ddd;">
-                                            Student<br>Photo
-                                        </div>
+                                    <td rowspan="5" style="text-align: center; background-color: #f8f9fa; width: 100px; vertical-align: middle;">
+                                        <?php
+                                        // Try to get student photo, then banner, then school name as fallback
+                                        $student_image_html = '';
+                                        
+                                        // 1. Try student photo first
+                                        if (isset($student->Photos) && !empty($student->Photos)) {
+                                            $photo_url = educare_get_attachment($student->Photos, true);
+                                            if ($photo_url) {
+                                                $student_image_html = $this->convert_image_for_pdf($student->Photos, 'Student Photo', 'width: 80px; height: 80px; object-fit: cover; border: 2px solid #ddd; border-radius: 8px;');
+                                            }
+                                        }
+                                        
+                                        // 2. Fallback to banner logo if no student photo
+                                        if (empty($student_image_html) && isset($banner) && $banner) {
+                                            $banner_logo = '';
+                                            if (isset($banner->logo1) && $banner->logo1 && $banner->logo1 != '0') {
+                                                $banner_logo = $banner->logo1;
+                                            } elseif (isset($banner->logo2) && $banner->logo2 && $banner->logo2 != '0') {
+                                                $banner_logo = $banner->logo2;
+                                            }
+                                            
+                                            if ($banner_logo) {
+                                                $student_image_html = $this->convert_image_for_pdf($banner_logo, 'School Logo', 'width: 80px; height: 80px; object-fit: contain; border: 1px solid #ddd; border-radius: 4px; margin: 20px 0;');
+                                            }
+                                        }
+                                        
+                                        // 3. Final fallback to school name
+                                        if (empty($student_image_html)) {
+                                            $school_name = 'Bright Olivelight Schools';
+                                            if (isset($banner->title) && !empty($banner->title)) {
+                                                $school_name = $banner->title;
+                                            }
+                                            $student_image_html = '<div style="padding: 15px; border: 2px dashed #ddd; border-radius: 8px; background: #f8f9fa; font-size: 11px; color: #666; text-align: center; line-height: 1.3;">
+                                                <strong style="color: #573b8a;">' . esc_html($school_name) . '</strong><br><br>
+                                                <small>Student Photo<br>Not Available</small>
+                                            </div>';
+                                        }
+                                        
+                                        echo $student_image_html;
+                                        ?>
                                     </td>
                                 </tr>
                                 <tr>
@@ -5115,14 +5177,18 @@ class Educare_Results_Emailer_Admin {
         .school-address {
             font-size: 9pt;
             margin: 3mm 0;
-            margin-top: -10px;
-            margin-bottom: 30px;
+            margin-top: 2px;
+            margin-bottom: 10px;
             text-align: center;
         }
 
+        .school-address p {
+            margin-bottom: 10px;
+        }
+
         hr {
-            margin-top: -10px !important;
-           
+            margin-top: 0px !important;
+            margin-bottom: 20px !important;
         }
 
         /* Table Styling - optimized for single page */
@@ -5156,11 +5222,12 @@ class Educare_Results_Emailer_Admin {
         }
 
         .student-details-table td {
-            padding: 1px 3px;
+            padding: 2px 3px;
             height: auto;
             white-space: nowrap;
             max-width: 200px;
             font-size: 9pt;
+            line-height: 1;
         }
 
         /* Reduce width of column 1 */
@@ -5192,8 +5259,8 @@ class Educare_Results_Emailer_Admin {
         }
 
         .student-details-table img {
-            width: 100px;
-            height: 120px;
+            width: 80px;
+            height: 80px;
             object-fit: contain;
         }
 
@@ -5204,40 +5271,40 @@ class Educare_Results_Emailer_Admin {
         
         .grade-sheet table {
             margin-top: -8px;
-            font-size: 9pt;
+            font-size: 8pt;
             margin-bottom: 1mm;
         }
 
         .grade-sheet td {
-            padding: 2px 3px;
+            padding: 1px 2px;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
             line-height: 1;
-            font-size: 8pt;
+            font-size: 7pt;
         }
 
         .grade-sheet table tr:nth-child(2) td {
-            font-size: 8pt;
-            padding: 2px;
+            font-size: 7pt;
+            padding: 1px;
             text-align: center;
             vertical-align: top;
         }
 
         .grade-sheet table td:nth-child(2) {
-            min-width: 60px;
+            min-width: 50px;
             white-space: normal;
         }
 
         .grade-sheet table td:nth-child(n+3) {
-            min-width: 35px;
+            min-width: 30px;
             text-align: center;
         }
 
-        /* Skills Section - optimized for single page with dompdf compatibility */
+        /* Skills Section - optimized for single page with horizontal alignment */
         .skills {
-            margin-top: 5px;
-            margin-bottom: 3mm;
+            margin-top: 3px;
+            margin-bottom: 2mm;
             width: 100%;
             clear: both;
         }
@@ -5254,7 +5321,7 @@ class Educare_Results_Emailer_Admin {
 
         .skills table {
             width: 100%;
-            font-size: 8.5pt;
+            font-size: 7.5pt;
             margin-bottom: 1mm;
             margin-left: 0;
             margin-right: 0;
@@ -5267,9 +5334,10 @@ class Educare_Results_Emailer_Admin {
         }
 
         .skills tr td {
-            font-size: 8pt;
+            font-size: 7pt;
             text-align: left;
-            padding: 1px 3px;
+            padding: 1px 2px;
+            line-height: 1;
         }
 
         /* Overview Section - optimized for single page */
@@ -5362,17 +5430,23 @@ class Educare_Results_Emailer_Admin {
             height: auto;
         }
 
-        img[alt="Signature"] {
-            width: 40px;
-            height: auto;
+        img[alt="Signature"],
+        img[alt*="Signature"],
+        img[alt*="signature"] {
+            width: 60px !important;
+            height: 30px !important;
+            object-fit: contain !important;
+            border: 1px solid #ddd !important;
         }
 
-        img[alt="Student Image"] {
-            width: 120px;
-            height: 150px;
-            object-fit: contain;
-            border: 1px solid #ccc;
-            border-radius: 4px;
+        img[alt="Student Image"],
+        img[alt*="Student Photo"],
+        img[alt*="student photo"] {
+            width: 80px !important;
+            height: 80px !important;
+            object-fit: contain !important;
+            border: 1px solid #ccc !important;
+            border-radius: 4px !important;
         }
 
         /* Status indicators */
@@ -5490,7 +5564,7 @@ class Educare_Results_Emailer_Admin {
                 $html .= esc_html(implode(' ', array_filter($address_parts)));
             } else {
                 // Fallback clean address
-                $html .= 'admin@bos.hyperiontechhub.com 08033306616, 08033401041, 08033183504 www.bos.hyperiontechhub.com';
+                $html .= 'admin@bos.hyperiontechhub.com 08033306616, 08033401041, 08033183504 www.bos.hyperiontechhub.com Founded in 2021';
             }
             
             $html .= '</p>
@@ -5503,7 +5577,7 @@ class Educare_Results_Emailer_Admin {
                 <div style="text-align: center; padding: 20px; background: #573b8a; color: white; font-size: 24px; font-weight: bold;">Bright Olivelight Schools</div>
             </div>
             <div class="school-address">
-                <p>admin@bos.hyperiontechhub.com 08033306616, 08033401041, 08033183504 www.bos.hyperiontechhub.com</p>
+                <p>admin@bos.hyperiontechhub.com 08033306616, 08033401041, 08033183504 www.bos.hyperiontechhub.com Founded in 2021</p>
                 <hr>
             </div>';
         }
@@ -5946,7 +6020,7 @@ class Educare_Results_Emailer_Admin {
             $signature = educare_get_attachment($remarks->teacher->signature, true);
             if ($signature) {
                 $signature = $this->ensure_absolute_url($signature);
-                $html .= '<img src="' . esc_url($signature) . '" alt="Class Teacher Signature">';
+                $html .= '<img src="' . esc_url($signature) . '" alt="Class Teacher Signature" style="width: 60px; height: 30px; object-fit: contain; border: 1px solid #ddd;">';
             }
         }
         
@@ -5968,7 +6042,7 @@ class Educare_Results_Emailer_Admin {
             $signature = educare_get_attachment($remarks->principal->signature, true);
             if ($signature) {
                 $signature = $this->ensure_absolute_url($signature);
-                $html .= '<img src="' . esc_url($signature) . '" alt="Principal Signature">';
+                $html .= '<img src="' . esc_url($signature) . '" alt="Principal Signature" style="width: 60px; height: 30px; object-fit: contain; border: 1px solid #ddd;">';
             }
         }
         

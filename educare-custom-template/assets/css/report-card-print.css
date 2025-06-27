@@ -103,11 +103,12 @@
     }
 
     .student-details-table td {
-        padding: 1px 3px;
+        padding: 2px 3px;
         height: auto;
         white-space: nowrap;
         max-width: 200px;
         font-size: 9pt;
+        line-height: 1;
     }
 
     /* Reduce width of column 1 */
@@ -139,8 +140,8 @@
     }
 
     .student-details-table img {
-        width: 100px;
-        height: 120px;
+        width: 80px;
+        height: 80px;
         object-fit: contain;
     }
 
@@ -151,58 +152,73 @@
     
     .grade-sheet table {
         margin-top: -8px;
-        font-size: 9pt;
+        font-size: 8pt;
         margin-bottom: 1mm;
     }
 
     .grade-sheet td {
-        padding: 2px 3px;
+        padding: 1px 2px;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
         line-height: 1;
-        font-size: 8pt;
+        font-size: 7pt;
     }
 
     .grade-sheet table tr:nth-child(2) td {
-        font-size: 8pt;
-        padding: 2px;
+        font-size: 7pt;
+        padding: 1px;
         text-align: center;
         vertical-align: top;
     }
 
     .grade-sheet table td:nth-child(2) {
-        min-width: 60px;
+        min-width: 50px;
         white-space: normal;
     }
 
     .grade-sheet table td:nth-child(n+3) {
-        min-width: 35px;
+        min-width: 30px;
         text-align: center;
     }
 
-    /* Skills Section - optimized for single page */
+    /* Skills Section - optimized for single page with horizontal alignment */
     .skills {
-        margin-top: 5px;
-        display: flex;
-        flex-direction: row;
-        justify-content: left;
-        gap: 15px;
-        margin-bottom: 3mm;
+        margin-top: 3px;
+        margin-bottom: 2mm;
+        width: 100%;
+        clear: both;
+    }
+
+    .skills-category {
+        float: left;
+        width: 48%;
+        margin-right: 2%;
+    }
+
+    .skills-category:last-child {
+        margin-right: 0;
     }
 
     .skills table {
-        width: 40%;
-        font-size: 8.5pt;
+        width: 100%;
+        font-size: 7.5pt;
         margin-bottom: 1mm;
-        margin-left: 5px;
-        margin-right: auto;
+        margin-left: 0;
+        margin-right: 0;
+    }
+
+    .skills::after {
+        content: "";
+        display: table;
+        clear: both;
     }
 
     .skills tr td {
-        font-size: 8pt;
+        font-size: 7pt;
         text-align: left;
-        padding: 1px 3px;
+        padding: 1px 2px;
+        line-height: 1;
     }
 
     /* Overview Section - optimized for single page */
@@ -295,17 +311,23 @@
         height: auto;
     }
 
-    img[alt="Signature"] {
-        width: 40px;
-        height: auto;
+    img[alt="Signature"],
+    img[alt*="Signature"],
+    img[alt*="signature"] {
+        width: 60px !important;
+        height: 30px !important;
+        object-fit: contain !important;
+        border: 1px solid #ddd !important;
     }
 
-    img[alt="Student Image"] {
-        width: 120px;
-        height: 150px;
-        object-fit: contain;
-        border: 1px solid #ccc;
-        border-radius: 4px;
+    img[alt="Student Image"],
+    img[alt*="Student Photo"],
+    img[alt*="student photo"] {
+        width: 80px !important;
+        height: 80px !important;
+        object-fit: contain !important;
+        border: 1px solid #ccc !important;
+        border-radius: 4px !important;
     }
 
     /* Status indicators */
